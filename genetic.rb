@@ -12,14 +12,11 @@ population = bond_data.initial_pop
 fit_cand = nil
 
 number_of_generations.times do |gen|
-    puts "Generation: #{gen + 1} Fitness error: #{fittest}"
     new_pop = []
 
     # Pick some best solutions not to mutate or breed
     best_solutions = CandidateSolution.fittest(population, best_from_gen)
     best_solutions.each { |sol| new_pop << sol }
-
-    # byebug
 
     ((population_size - best_from_gen) / 2).times do |x|
         parent1 = CandidateSolution.select_fittest(population, population_size - 1, best_from_gen)
@@ -36,13 +33,11 @@ number_of_generations.times do |gen|
         end
     end
 
+    puts "Generation: #{gen + 1} Fitness error: #{fittest}"
+
     population = new_pop
     fit_cand = CandidateSolution.fittest(population, 1).first
     fittest = fit_cand.error
-
-    # byebug if fit_cand.error == 0.0
-
-    # r = 1
 
     break if fit_cand.error == 0.0
 end
@@ -59,8 +54,4 @@ puts "CN %: #{fit_cand.loans.select { |x| x.country == 'CN' }.count / fit_cand.l
 puts "RU %: #{fit_cand.loans.select { |x| x.country == 'RU' }.count / fit_cand.loans.count.to_f * 100.0}"
 puts "Total: #{fit_cand.loans.sum { |x| x.amount}}"
 
-# byebug
-
 r = 1
-
-# puts data

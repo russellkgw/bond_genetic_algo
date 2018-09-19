@@ -3,7 +3,7 @@ class CandidateSolution
 
     def initialize(loans)
         @loans = loans
-        @error = compute_average_error(loans)
+        compute_average_error(loans)
     end
 
     def compute_average_error(loans)
@@ -19,10 +19,7 @@ class CandidateSolution
         # Bond Size #TODO:
         @amount_error = (2000000.0 - loans.sum { |x| x.amount}).abs / 2000000.0
 
-        tot_error = (in_error + cn_error + ru_error + amount_error)
-        # byebug if tot_error == 0.0
-
-        return tot_error
+        @error = (in_error + cn_error + ru_error + amount_error)
     end
 
     def self.fittest(population, best_from_gen_num)
